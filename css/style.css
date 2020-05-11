@@ -50,6 +50,7 @@ body {
   top: 40%;
   left: 50%; /* % from the parent element, e.g. 50% will start exactly in the middle of parent*/
   transform: translate(-50%, -50%); /* shifted to the left 50% from width of element itself*/
+  text-align: center; /*to make button centered, because it is inline block, which is simply text*/
 }
 
 .heading-primary {
@@ -57,6 +58,7 @@ body {
   text-transform: uppercase;
   
   backface-visibility: hidden; /*removes "shaking"*/
+  margin-bottom: 60px;
 }
 
 .heading-primary-main {
@@ -116,4 +118,73 @@ body {
     opacity: 1;
     transform: translate(0); 
   }
+}
+
+@keyframes moveInButton {
+  0% {
+    opacity: 0;
+    transform: translateY(30px); 
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(0); 
+  }
+}
+
+
+.btn:link,
+.btn:visited {
+  display: inline-block;
+  text-transform: uppercase;
+  text-decoration: none;  
+  padding: 15px 40px;
+  border-radius: 100px;
+  transition: all .2s; /*animation has to be defined on the init state, but on active/other state should be specified how */
+  position: relative; /*should be relative to hide absolute ::after button, to make it hidden behind*/
+}
+
+.btn:hover {
+  transform: translateY(-3px); /*negative to move up, in relation to initial link state*/
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.btn:active {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btn-white {
+  background-color: #fff;
+  color: #777;
+}
+
+.btn::after {
+  content: "";
+  display: inline-block;
+  height: 100%;
+  width: 100%; /*treated as a child of parent element, e.g. initial button */
+  border-radius: 100px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1; /*used to make button behind*/
+  transition: all .4s; /*to make hover after animated*/
+}
+
+.btn-white::after {
+  background-color: #fff;
+}
+
+.btn:hover::after {
+  transform: scaleX(1.4) scaleY(1.6); /*increase element, e.g. 2 will double*/ 
+  opacity: 0; 
+}
+
+.btn-animated {
+  animation-name: moveInButton;
+  animation-duration: .5s;
+  animation-timing-function: ease-out;
+  animation-delay: .75s;
+  animation-fill-mode: backwards; /*apply styles of 0% before animation starts*/
 }
